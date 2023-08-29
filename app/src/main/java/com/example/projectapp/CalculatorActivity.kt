@@ -28,9 +28,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,21 +51,23 @@ class CalculatorActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Calc(){
-    var firstNum by remember { mutableStateOf("") }
-    var secondNum by remember { mutableStateOf("") }
+    var firstNum by remember { mutableStateOf(TextFieldValue("")) }
+    var secondNum by remember { mutableStateOf(TextFieldValue("")) }
+    var answer by remember { mutableStateOf("") }
+    var context = LocalContext.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.DarkGray)) {
-        Text(text = "Answer here!",
+        Text(text = answer,
         color = Color.White,
         fontSize = 45.sp
         )
         Spacer(modifier = Modifier.height(50.dp))
         OutlinedTextField(
-            value = "First Number",
+            value = firstNum,
             modifier = Modifier
 //                .fillMaxWidth()
                 .background(Color.LightGray)
@@ -72,13 +76,13 @@ fun Calc(){
             color = Color.Black,
             fontSize = 30.sp
             )},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             onValueChange = {
                 firstNum=it
             } )
         Spacer(modifier = Modifier.height(50.dp))
         OutlinedTextField(
-            value = "Second Number",
+            value = secondNum,
             modifier = Modifier
 //                .fillMaxWidth()
                 .background(Color.LightGray)
@@ -87,13 +91,22 @@ fun Calc(){
                 color = Color.Black,
                 fontSize = 30.sp
             )},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             onValueChange = {
-                firstNum=it
+                secondNum = it
             } )
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                      var myfirstnum = firstNum.text.trim()
+                    var mysecnum = secondNum.text.trim()
+                if (myfirstnum.isEmpty() && mysecnum.isEmpty()){
+                    answer = "Please fill in all details"
+                } else{
+                  var myanswer = myfirstnum.toDouble()+mysecnum.toDouble()
+                  answer = myanswer.toString()
+                }
+            },
             colors = ButtonDefaults.buttonColors(),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
@@ -110,7 +123,15 @@ fun Calc(){
 
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedButton(
-            onClick = { /*TODO*/ },
+            onClick = {              var myfirstnum = firstNum.text.trim()
+                var mysecnum = secondNum.text.trim()
+                if (myfirstnum.isEmpty() && mysecnum.isEmpty()){
+                    answer = "Please fill in all details"
+                } else{
+                    var myanswer = myfirstnum.toDouble()-mysecnum.toDouble()
+                    answer = myanswer.toString()
+                }
+             },
             colors = ButtonDefaults.buttonColors(),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
@@ -127,7 +148,17 @@ fun Calc(){
 
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                var myfirstnum = firstNum.text.trim()
+                var mysecnum = secondNum.text.trim()
+                if (myfirstnum.isEmpty() && mysecnum.isEmpty()){
+                    answer = "Please fill in all details"
+                } else{
+                    var myanswer = myfirstnum.toDouble()*mysecnum.toDouble()
+                    answer = myanswer.toString()
+                }
+
+            },
             colors = ButtonDefaults.buttonColors(),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
@@ -144,7 +175,17 @@ fun Calc(){
 
         Spacer(modifier = Modifier.height(25.dp))
         OutlinedButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                var myfirstnum = firstNum.text.trim()
+                var mysecnum = secondNum.text.trim()
+                if (myfirstnum.isEmpty() && mysecnum.isEmpty()){
+                    answer = "Please fill in all details"
+                } else{
+                    var myanswer = myfirstnum.toDouble()/mysecnum.toDouble()
+                    answer = myanswer.toString()
+                }
+
+            },
             colors = ButtonDefaults.buttonColors(),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
@@ -159,22 +200,6 @@ fun Calc(){
             )
         }
 
-        Spacer(modifier = Modifier.height(25.dp))
-        OutlinedButton(
-            onClick = { /*TODO*/ },
-            colors = ButtonDefaults.buttonColors(),
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        ) {
-            Text(
-                text = "+",
-                fontFamily = FontFamily.Serif,
-                fontSize = 35.sp,
-                fontWeight = FontWeight(56)
-            )
-        }
 
     }
 } 
